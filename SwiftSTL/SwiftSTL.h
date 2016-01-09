@@ -33,4 +33,4 @@ FOUNDATION_EXPORT double SwiftSTLVersionNumber;
 //! Project version string for SwiftSTL.
 FOUNDATION_EXPORT const unsigned char SwiftSTLVersionString[];
 
-#import "deque.h"
+#import "containers.h"

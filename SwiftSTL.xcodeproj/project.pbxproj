@@ -13,13 +13,38 @@
 		377C0C491C39068300B1840F /* SwiftSTL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 377C0C3F1C39068300B1840F /* SwiftSTL.framework */; };
 		377C0C591C39076D00B1840F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377C0C2F1C39055800B1840F /* Tests.swift */; };
 		377C0C5A1C39077000B1840F /* SwiftSTL.h in Headers */ = {isa = PBXBuildFile; fileRef = 377C0C231C39055800B1840F /* SwiftSTL.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		37D321CF1C3FD42400E2245F /* Deque.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D321CE1C3FD42400E2245F /* Deque.swift */; };
 		37D321D01C3FD42400E2245F /* Deque.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D321CE1C3FD42400E2245F /* Deque.swift */; };
-		37D321D61C3FD8BD00E2245F /* deque.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D321D41C3FD8BD00E2245F /* deque.cpp */; };
-		37D321D71C3FD8BD00E2245F /* deque.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D321D41C3FD8BD00E2245F /* deque.cpp */; };
-		37D321E71C3FD91000E2245F /* deque.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D321DA1C3FD8D800E2245F /* deque.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		37D321E91C3FDC1900E2245F /* deque.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D321DA1C3FD8D800E2245F /* deque.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		37D321F51C4110F100E2245F /* containers.cpp.gen in Sources */ = {isa = PBXBuildFile; fileRef = 37D321F41C4110F100E2245F /* containers.cpp.gen */; };
+		37D321F61C4110F100E2245F /* containers.cpp.gen in Sources */ = {isa = PBXBuildFile; fileRef = 37D321F41C4110F100E2245F /* containers.cpp.gen */; };
+		37D322031C41395B00E2245F /* Deque.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D321CE1C3FD42400E2245F /* Deque.swift */; };
+		37D322041C413A4400E2245F /* containers.h.gen in Sources */ = {isa = PBXBuildFile; fileRef = 37D321F91C41316E00E2245F /* containers.h.gen */; };
+		37D322051C413A5400E2245F /* containers.h.gen in Sources */ = {isa = PBXBuildFile; fileRef = 37D321F91C41316E00E2245F /* containers.h.gen */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		37D321F71C41116100E2245F /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.gen";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
+			);
+			script = "cd \"$INPUT_FILE_DIR\"\ncat \"$INPUT_FILE_NAME\" | \"$PROJECT_DIR/anygen/anygen.py\" > \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE\"";
+		};
+		37D322071C413A7B00E2245F /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.gen";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
+			);
+			script = "cd \"$INPUT_FILE_DIR\"\ncat \"$INPUT_FILE_NAME\" | \"$PROJECT_DIR/anygen/anygen.py\" > \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE\"";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
 		377C0C2C1C39055800B1840F /* PBXContainerItemProxy */ = {
@@ -50,11 +75,9 @@
 		377C0C571C3906E800B1840F /* Info-Mac.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-Mac.plist"; sourceTree = "<group>"; };
 		377C0C581C3906F400B1840F /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		37D321CE1C3FD42400E2245F /* Deque.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deque.swift; sourceTree = "<group>"; };
-		37D321D41C3FD8BD00E2245F /* deque.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = deque.cpp; sourceTree = "<group>"; };
-		37D321DA1C3FD8D800E2245F /* deque.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = deque.h; sourceTree = "<group>"; };
-		37D321ED1C40CAC200E2245F /* containerbase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = containerbase.hpp; sourceTree = "<group>"; };
-		37D321EE1C40CB5800E2245F /* _deque.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = _deque.hpp; sourceTree = "<group>"; };
-		37D321EF1C40CD4A00E2245F /* wrap.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = wrap.hpp; sourceTree = "<group>"; };
+		37D321F41C4110F100E2245F /* containers.cpp.gen */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = containers.cpp.gen; sourceTree = "<group>"; };
+		37D321F81C41301200E2245F /* containers.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = containers.py; sourceTree = "<group>"; };
+		37D321F91C41316E00E2245F /* containers.h.gen */ = {isa = PBXFileReference; lastKnownFileType = text; path = containers.h.gen; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,11 +141,9 @@
 				377C0C251C39055800B1840F /* Info-Mac.plist */,
 				377C0C581C3906F400B1840F /* Info-iOS.plist */,
 				37D321CE1C3FD42400E2245F /* Deque.swift */,
-				37D321ED1C40CAC200E2245F /* containerbase.hpp */,
-				37D321EF1C40CD4A00E2245F /* wrap.hpp */,
-				37D321DA1C3FD8D800E2245F /* deque.h */,
-				37D321EE1C40CB5800E2245F /* _deque.hpp */,
-				37D321D41C3FD8BD00E2245F /* deque.cpp */,
+				37D321F91C41316E00E2245F /* containers.h.gen */,
+				37D321F81C41301200E2245F /* containers.py */,
+				37D321F41C4110F100E2245F /* containers.cpp.gen */,
 			);
 			path = SwiftSTL;
 			sourceTree = "<group>";
@@ -145,7 +166,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				377C0C241C39055800B1840F /* SwiftSTL.h in Headers */,
-				37D321E71C3FD91000E2245F /* deque.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,7 +174,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				377C0C5A1C39077000B1840F /* SwiftSTL.h in Headers */,
-				37D321E91C3FDC1900E2245F /* deque.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,12 +184,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 377C0C341C39055800B1840F /* Build configuration list for PBXNativeTarget "Mac" */;
 			buildPhases = (
+				37D322021C41389900E2245F /* Generate and copy containers.h */,
 				377C0C1B1C39055800B1840F /* Sources */,
 				377C0C1C1C39055800B1840F /* Frameworks */,
 				377C0C1D1C39055800B1840F /* Headers */,
 				377C0C1E1C39055800B1840F /* Resources */,
 			);
 			buildRules = (
+				37D321F71C41116100E2245F /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -201,12 +222,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 377C0C501C39068300B1840F /* Build configuration list for PBXNativeTarget "iOS" */;
 			buildPhases = (
+				37D322061C413A5F00E2245F /* Generate and copy containers.h */,
 				377C0C3A1C39068300B1840F /* Sources */,
 				377C0C3B1C39068300B1840F /* Frameworks */,
 				377C0C3C1C39068300B1840F /* Headers */,
 				377C0C3D1C39068300B1840F /* Resources */,
 			);
 			buildRules = (
+				37D322071C413A7B00E2245F /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -308,13 +331,45 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		37D322021C41389900E2245F /* Generate and copy containers.h */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate and copy containers.h";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$PROJECT_DIR/SwiftSTL\"\ncat \"containers.h.gen\" | \"$PROJECT_DIR/anygen/anygen.py\" > \"$BUILT_PRODUCTS_DIR/$PUBLIC_HEADERS_FOLDER_PATH/containers.h\"";
+		};
+		37D322061C413A5F00E2245F /* Generate and copy containers.h */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate and copy containers.h";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$PROJECT_DIR/SwiftSTL\"\ncat \"containers.h.gen\" | \"$PROJECT_DIR/anygen/anygen.py\" > \"$BUILT_PRODUCTS_DIR/$PUBLIC_HEADERS_FOLDER_PATH/containers.h\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		377C0C1B1C39055800B1840F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37D321D61C3FD8BD00E2245F /* deque.cpp in Sources */,
-				37D321CF1C3FD42400E2245F /* Deque.swift in Sources */,
+				37D322041C413A4400E2245F /* containers.h.gen in Sources */,
+				37D321F51C4110F100E2245F /* containers.cpp.gen in Sources */,
+				37D322031C41395B00E2245F /* Deque.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,7 +385,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37D321D71C3FD8BD00E2245F /* deque.cpp in Sources */,
+				37D322051C413A5400E2245F /* containers.h.gen in Sources */,
+				37D321F61C4110F100E2245F /* containers.cpp.gen in Sources */,
 				37D321D01C3FD42400E2245F /* Deque.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -455,6 +511,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
+				HEADER_SEARCH_PATHS = "$(DERIVED_FILE_DIR)";
 				INFOPLIST_FILE = "$(SRCROOT)/SwiftSTL/Info-Mac.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -476,6 +533,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
+				HEADER_SEARCH_PATHS = "$(DERIVED_FILE_DIR)";
 				INFOPLIST_FILE = "$(SRCROOT)/SwiftSTL/Info-Mac.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";

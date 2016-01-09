@@ -1,5 +1,5 @@
 //
-//  containerbase.hpp
+//  containers.h.gen
 //  SwiftSTL
 //
 //  The MIT License (MIT)
@@ -25,50 +25,39 @@
 //  SOFTWARE.
 //
 
-#ifndef containerbase_h
-#define containerbase_h
+#ifndef deque_h_gen
+#define deque_h_gen
 
-#include <cstdint>
-#include <cassert>
+#include <unistd.h>
 
-typedef uint16_t szv_t;
+__BEGIN_DECLS
 
-static const szv_t _max_size = 2048;
+/*%
 
-template <szv_t size>
-struct sizetype {
-    char _[size ?: 1];
-};
+with open('containers.py') as f:
+    exec(f.read())
 
-#define DECL 1
-#define IMPL 2
+for type in types:
+    Type = camel(type)
+    Prefix = '_STL' + Type
+    Ref = Prefix + 'Ref'
 
-#define _CONTAINER_BASE(T, ...) \
-class _##T##_base { \
-public: \
-    virtual _##T##_base * clone() const { abort(); };
+%*/
 
-#define _CONTAINER(T) \
-template <szv_t max = _max_size> \
-class _##T : public _##T##_base { \
-    typedef sizetype<max> element; \
-    std::T<element> v; \
-     \
-    _##T() { } \
-     \
-    _##T(const std::T<element>& v) { \
-        this->v = std::T<element>(v); \
-    } \
-     \
-public: \
-    static _##T##_base * make(szv_t size) { \
-        assert(size <= max); \
-        if (size <= max / 2) return _##T<max / 2>::make(size); \
-        return new _##T(); \
-    } \
-     \
-    _##T * clone() const override { \
-        return new _##T(v); \
-    }
+typedef struct _%{type}_base * %Ref;
 
-#endif /* containerbase_h */
+%Ref %{Prefix}Create(size_t size);
+
+%Ref %{Prefix}CreateCopy(const %Ref ref);
+
+void %{Prefix}Destroy(%Ref ref);
+
+//%     for f in types[type]:
+%{f.type} %{Prefix + camel(f.name)}(%{f.vattrs} %Ref ref %{', ' + f.args if len(f.args) else ''});
+//%     pass
+
+//% pass
+
+__END_DECLS
+
+#endif /* deque_h_gen */

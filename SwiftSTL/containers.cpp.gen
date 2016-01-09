@@ -1,0 +1,115 @@
+//
+//  containers.cpp.gen
+//  SwiftSTL
+//
+//  The MIT License (MIT)
+//
+//  Copyright (c) 2016 Greg Omelaenko
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
+//
+
+#include <cstdint>
+#include <cassert>
+
+#include "containers.h"
+
+typedef uint16_t szv_t;
+
+static const szv_t _max_size = 2048;
+
+template <szv_t size>
+struct sizetype {
+    char _[size ?: 1];
+};
+
+#define UNIMPLEMENTED { abort(); }
+
+/*%
+
+with open('containers.py') as f:
+    exec(f.read())
+
+for type in types:
+    cont = '_' + type
+    base = cont + '_base'
+    stl = 'std::' + type
+
+%*/
+
+#include <%type>
+
+struct %base {
+    virtual %base * clone() const UNIMPLEMENTED;
+
+//%     for f in types[type]:
+    virtual %{f.type} %{f.name}(%{f.args}) %{f.vattrs} UNIMPLEMENTED;
+//%     pass
+
+};
+
+template <szv_t max = _max_size>
+struct %cont : public %base {
+    typedef sizetype<max> element;
+    %stl<element> v;
+
+    %cont() { }
+
+    %cont(const %stl<element>& v) {
+        this->v = %stl<element>(v);
+    }
+
+    static %base * make(szv_t size) {
+        assert(size <= max);
+        if (size <= max / 2) return %cont<max / 2>::make(size);
+        return new %cont();
+    }
+
+    %cont * clone() const override {
+        return new %cont(v);
+    }
+
+//%     for f in types[type]:
+    %{f.type} %{f.name}(%{f.args}) %{f.vattrs} override %{f.body}
+//%     pass
+};
+
+//%     Type = camel(type)
+//%     Prefix = '_STL' + Type
+//%     Ref = Prefix + 'Ref'
+
+%Ref %{Prefix}Create(size_t size) {
+    return (%base *)%cont<>::make(size);
+}
+
+%Ref %{Prefix}CreateCopy(const %Ref ref) {
+    return (%base *)ref->clone();
+}
+
+void %{Prefix}Destroy(%Ref ref) {
+    delete ref;
+}
+
+//%     for f in types[type]:
+%{f.type} %{Prefix + camel(f.name)}(%{f.vattrs} %Ref ref %{', ' + f.args if len(f.args) else ''}) {
+    return ref->%{f.name}(%{argscall(f.args)});
+}
+//%     pass
+//% pass
+

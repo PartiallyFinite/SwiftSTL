@@ -1,0 +1,3 @@
+[submodule "anygen"]
+	path = anygen
+	url = git@github.com:PartiallyFinite/anygen.git
