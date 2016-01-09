@@ -39,7 +39,9 @@ def argscall(args):
 text = open('containerfunctions.cpp').read()
 
 # delete comments, preprocessor statements, and explicitly marked SKIP lines
-text = re.sub(r'(?://|#|SKIP).*$', '', text, flags=re.MULTILINE)
+text = re.sub(r'(?://|#|SKIP).*$', '', text, flags = re.MULTILINE)
+# delete multiline comments
+text = re.sub(r'/\*.*?\*/', '', text, flags = re.MULTILINE | re.DOTALL)
 
 types = {}
 

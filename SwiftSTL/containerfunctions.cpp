@@ -25,16 +25,25 @@
 //  SOFTWARE.
 //
 
+/*
+ * NOTE: This file is _not_ compiled as part of the project; it is processed by containers.py to generate wrappers.
+ * This file exists instead of a table of butchered strings in order to provide a maintainable and standalone testable development area.
+ * This file is designed to be able to be compiled on its own for testing purposes.
+ * 
+ * All top-level structs, and all their member functions, will be converted into template wrappers.
+ * Lines that are not required for this process, but are only used to allow this file to compile on its own, should be prepended with SKIP.
+ * All preprocessor statements and comments will be eliminated automatically.
+ */
+
 #include "sizetype.hpp"
 
-// make life easier for the script by marking lines that should be ignored
 #define SKIP
 
 #include <deque>
 
 struct deque {
 
-    SKIP typedef sizetype<0> element;
+    SKIP typedef sizetype<1> element;
     SKIP std::deque<element> v;
 
     const void * get_index(size_t index) const {
