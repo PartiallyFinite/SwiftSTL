@@ -78,6 +78,8 @@
 		37D321F41C4110F100E2245F /* containers.cpp.gen */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = containers.cpp.gen; sourceTree = "<group>"; };
 		37D321F81C41301200E2245F /* containers.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = containers.py; sourceTree = "<group>"; };
 		37D321F91C41316E00E2245F /* containers.h.gen */ = {isa = PBXFileReference; lastKnownFileType = text; path = containers.h.gen; sourceTree = "<group>"; };
+		37D322081C413F9600E2245F /* containerfunctions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = containerfunctions.cpp; sourceTree = "<group>"; };
+		37D322091C4140CC00E2245F /* sizetype.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sizetype.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,8 +143,10 @@
 				377C0C251C39055800B1840F /* Info-Mac.plist */,
 				377C0C581C3906F400B1840F /* Info-iOS.plist */,
 				37D321CE1C3FD42400E2245F /* Deque.swift */,
-				37D321F91C41316E00E2245F /* containers.h.gen */,
+				37D322091C4140CC00E2245F /* sizetype.hpp */,
+				37D322081C413F9600E2245F /* containerfunctions.cpp */,
 				37D321F81C41301200E2245F /* containers.py */,
+				37D321F91C41316E00E2245F /* containers.h.gen */,
 				37D321F41C4110F100E2245F /* containers.cpp.gen */,
 			);
 			path = SwiftSTL;

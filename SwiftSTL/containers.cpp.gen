@@ -29,15 +29,7 @@
 #include <cassert>
 
 #include "containers.h"
-
-typedef uint16_t szv_t;
-
-static const szv_t _max_size = 2048;
-
-template <szv_t size>
-struct sizetype {
-    char _[size ?: 1];
-};
+#include "sizetype.hpp"
 
 #define UNIMPLEMENTED { abort(); }
 
@@ -59,14 +51,14 @@ struct %base {
     virtual %base * clone() const UNIMPLEMENTED;
 
 //%     for f in types[type]:
-    virtual %{f.type} %{f.name}(%{f.args}) %{f.vattrs} UNIMPLEMENTED;
+    virtual %{f.type} %{f.name}(%{f.args}) %{f.const} UNIMPLEMENTED;
 //%     pass
 
 };
 
 template <szv_t max = _max_size>
 struct %cont : public %base {
-    typedef sizetype<max> element;
+    typedef sizetype<max ?: 1> element;
     %stl<element> v;
 
     %cont() { }
@@ -86,7 +78,9 @@ struct %cont : public %base {
     }
 
 //%     for f in types[type]:
-    %{f.type} %{f.name}(%{f.args}) %{f.vattrs} override %{f.body}
+    %{f.type} %{f.name}(%{f.args}) %{f.const} override {
+        %{f.body}
+    }
 //%     pass
 };
 
@@ -107,7 +101,7 @@ void %{Prefix}Destroy(%Ref ref) {
 }
 
 //%     for f in types[type]:
-%{f.type} %{Prefix + camel(f.name)}(%{f.vattrs} %Ref ref %{', ' + f.args if len(f.args) else ''}) {
+%{f.type} %{Prefix + camel(f.name)}(%{f.const} %Ref ref %{', ' + f.args if len(f.args) else ''}) {
     return ref->%{f.name}(%{argscall(f.args)});
 }
 //%     pass

@@ -1,5 +1,5 @@
 //
-//  containers.h.gen
+//  containerfunctions.cpp
 //  SwiftSTL
 //
 //  The MIT License (MIT)
@@ -25,39 +25,57 @@
 //  SOFTWARE.
 //
 
-#ifndef deque_h_gen
-#define deque_h_gen
+#include "sizetype.hpp"
 
-#include <unistd.h>
+// make life easier for the script by marking lines that should be ignored
+#define SKIP
 
-__BEGIN_DECLS
+#include <deque>
 
-/*%
+struct deque {
 
-with open('containers.py') as f:
-    exec(f.read())
+    SKIP typedef sizetype<0> element;
+    SKIP std::deque<element> v;
 
-for type in types:
-    Type = camel(type)
-    Prefix = '_STL' + Type
-    Ref = Prefix + 'Ref'
+    const void * get_index(size_t index) const {
+        return this->v[index]._;
+    }
 
-%*/
+    void * index(size_t index) {
+        return this->v[index]._;
+    }
 
-typedef struct _%{type}_base * %Ref;
+    size_t size() const {
+        return this->v.size();
+    }
 
-%Ref %{Prefix}Create(size_t size);
+    void clear() {
+        this->v.clear();
+    }
 
-%Ref %{Prefix}CreateCopy(const %Ref ref);
+    void insert(size_t index, const void *values, size_t count) {
+        this->v.insert(this->v.begin() + index, (const element *)values, (const element *)values + count);
+    }
 
-void %{Prefix}Destroy(%Ref ref);
+    void erase(size_t index, size_t count) {
+        this->v.erase(this->v.begin() + index, this->v.begin() + index + count);
+    }
 
-//%     for f in types[type]:
-%{f.type} %{Prefix + camel(f.name)}(%{f.const} %Ref ref %{', ' + f.args if len(f.args) else ''});
-//%     pass
+    void push_back(const void *value) {
+        this->v.push_back(*(const element *)value);
+    }
 
-//% pass
+    void pop_back() {
+        this->v.pop_back();
+    }
 
-__END_DECLS
+    void push_front(const void *value) {
+        this->v.push_front(*(const element *)value);
+    }
 
-#endif /* deque_h_gen */
+    void pop_front() {
+        this->v.pop_front();
+    }
+
+};
+

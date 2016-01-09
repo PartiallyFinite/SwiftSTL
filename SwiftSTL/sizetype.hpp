@@ -1,5 +1,5 @@
 //
-//  containers.h.gen
+//  sizetype.hpp
 //  SwiftSTL
 //
 //  The MIT License (MIT)
@@ -25,39 +25,16 @@
 //  SOFTWARE.
 //
 
-#ifndef deque_h_gen
-#define deque_h_gen
+#ifndef sizetype_hpp
+#define sizetype_hpp
 
-#include <unistd.h>
+typedef uint16_t szv_t;
 
-__BEGIN_DECLS
+static const szv_t _max_size = 2048;
 
-/*%
+template <szv_t size>
+struct sizetype {
+    char _[size ?: 1];
+};
 
-with open('containers.py') as f:
-    exec(f.read())
-
-for type in types:
-    Type = camel(type)
-    Prefix = '_STL' + Type
-    Ref = Prefix + 'Ref'
-
-%*/
-
-typedef struct _%{type}_base * %Ref;
-
-%Ref %{Prefix}Create(size_t size);
-
-%Ref %{Prefix}CreateCopy(const %Ref ref);
-
-void %{Prefix}Destroy(%Ref ref);
-
-//%     for f in types[type]:
-%{f.type} %{Prefix + camel(f.name)}(%{f.const} %Ref ref %{', ' + f.args if len(f.args) else ''});
-//%     pass
-
-//% pass
-
-__END_DECLS
-
-#endif /* deque_h_gen */
+#endif /* sizetype_hpp */

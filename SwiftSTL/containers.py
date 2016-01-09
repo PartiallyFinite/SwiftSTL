@@ -28,25 +28,49 @@
 import re
 from collections import namedtuple
 
+Func = namedtuple('Func', 'type name args const body')
+
 def camel(name):
     return name.title().replace('_', '')
 
 def argscall(args):
     return re.sub(r".+?\W([A-Za-z0-9$_]+)(, |$)", r"\1\2", args)
 
-Func = namedtuple('Func', 'type name args vattrs body')
+text = open('containerfunctions.cpp').read()
 
-types = {
-    'deque': [
-        Func('const void *', 'get_index', 'size_t index', 'const', '{ return this->v[index]._; }'),
-        Func('void *', 'index', 'size_t index', '', '{ return this->v[index]._; }'),
-        Func('size_t', 'size', '', 'const', '{ return this->v.size(); }'),
-        Func('void', 'clear', '', '', '{ this->v.clear(); }'),
-        Func('void', 'insert', 'size_t index, const void *values, size_t count', '', '{ this->v.insert(this->v.begin() + index, (const element *)values, (const element *)values + count); }'),
-        Func('void', 'erase', 'size_t index, size_t count', '', '{ this->v.erase(this->v.begin() + index, this->v.begin() + index + count); }'),
-        Func('void', 'push_back', 'const void *value', '', '{ this->v.push_back(*(const element *)value); }'),
-        Func('void', 'pop_back', '', '', '{ this->v.pop_back(); }'),
-        Func('void', 'push_front', 'const void *value', '', '{ this->v.push_front(*(const element *)value); }'),
-        Func('void', 'pop_front', '', '', '{ this->v.pop_front(); }')
-    ]
-}
+# delete comments, preprocessor statements, and explicitly marked SKIP lines
+text = re.sub(r'(?://|#|SKIP).*$', '', text, flags=re.MULTILINE)
+
+types = {}
+
+reType = re.compile(r'''
+        struct \s+ (\w+)  # type name with preceding space
+        \s*  # optional spaces between name and brace
+        \{  # opening brace
+        (.*?)  # struct body
+        ^\};\s*$  # closing brace and semicolon at the start of the line, followed only by trailing whitespace (if any).
+        ''', re.MULTILINE | re.VERBOSE | re.DOTALL)
+
+reFunc = re.compile(r'''
+        ([A-Za-z$_0-9\s\*]+)  # return type, non-greedy
+        (?<=[*\s])  # whitespace or pointer star adjacent to function name
+        ([A-Za-z$_][A-Za-z$_0-9]*)  # function name
+        \s*
+        \(  # opening bracket
+        ([^)]*)  # function arguments (CANNOT CONTAIN PARENTHESES)
+        \) # closing bracket
+        \s*
+        (const)?  # const attribute
+        \s*
+        \{ (.*?)  # function body
+        ^\s*\}\s*$  # closing brace, must be alone on line, apart from whitespace.
+        ''', re.MULTILINE | re.VERBOSE | re.DOTALL)
+
+for (type, text) in reType.findall(text):
+    funcs = []
+    for m in reFunc.findall(text):
+        f = Func(*map(str.strip, m))
+        funcs.append(f)
+    types[type] = funcs
+
+
