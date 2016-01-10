@@ -67,9 +67,9 @@ public final class %Impl<Element> : NonObjectiveCBase {
 
     private var ref = %{Prefix}Create(sizeof(Element))
 
-    override init() { }
+    public override init() { }
 
-    init(_ copy: %Impl<Element>) {
+    public init(_ copy: %Impl<Element>) {
         ref = %{Prefix}CreateCopy(copy.ref)
     }
 
@@ -82,7 +82,7 @@ public final class %Impl<Element> : NonObjectiveCBase {
         ret = swifttype(f)
         pre, post = swiftcallwrap(f)
 %*/
-    func %{lcamel(f.name)}(%{swiftargsdecl(f.args)}) -> %ret {
+    public func %{lcamel(f.name)}(%{swiftargsdecl(f.args)}) -> %ret {
         return %pre%{Prefix + camel(f.name)}(ref%{', ' + argscall(f.args) if len(f.args) else ''})%post
     }
 //%     pass
