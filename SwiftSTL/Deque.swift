@@ -25,72 +25,6 @@
 //  SOFTWARE.
 //
 
-func withUnsafePointer<T, Result>(arg: T, @noescape _ body: UnsafePointer<T> throws -> Result) rethrows -> Result {
-    var cp = arg
-    return try withUnsafePointer(&cp, body)
-}
-
-private final class _STLDequeImpl<Element> : NonObjectiveCBase {
-
-    var ref = _STLDequeCreate(sizeof(Element))
-
-    override init() { }
-
-    init(_ copy: _STLDequeImpl<Element>) {
-        ref = _STLDequeCreateCopy(copy.ref)
-    }
-
-    deinit {
-        _STLDequeDestroy(ref)
-    }
-
-    subscript(index: Int) -> Element {
-        get {
-            return UnsafePointer<Element>(_STLDequeGetIndex(ref, index))[0]
-        }
-        set {
-            UnsafeMutablePointer<Element>(_STLDequeIndex(ref, index))[0] = newValue
-        }
-    }
-
-    var size: Int {
-        return _STLDequeSize(ref)
-    }
-
-    func clear() {
-        _STLDequeClear(ref)
-    }
-
-    func insert(mem: UnsafePointer<Element>, count: Int, atIndex i: Int) {
-        _STLDequeInsert(ref, i, mem, count)
-    }
-
-    func eraseRange(range: Range<Int>) {
-        _STLDequeErase(ref, range.startIndex, range.count)
-    }
-
-    func pushBack(v: Element) {
-        withUnsafePointer(v) {
-            _STLDequePushBack(ref, $0)
-        }
-    }
-
-    func popBack() {
-        _STLDequePopBack(ref)
-    }
-
-    func pushFront(v: Element) {
-        withUnsafePointer(v) {
-            _STLDequePushFront(ref, $0)
-        }
-    }
-
-    func popFront() {
-        _STLDequePopFront(ref)
-    }
-
-}
-
 public struct STLDeque<Element> : CollectionType, MutableCollectionType {
 
     private var nonmutatingImpl = _STLDequeImpl<Element>()
@@ -114,15 +48,15 @@ public struct STLDeque<Element> : CollectionType, MutableCollectionType {
     }
 
     public var endIndex: Int {
-        return nonmutatingImpl.size
+        return nonmutatingImpl.size()
     }
 
     public subscript(index: Int) -> Element {
         get {
-            return nonmutatingImpl[index]
+            return nonmutatingImpl.getIndex(index)
         }
         set {
-            impl[index] = newValue
+            nonmutatingImpl.index(index).memory = newValue
         }
     }
 
@@ -131,7 +65,7 @@ public struct STLDeque<Element> : CollectionType, MutableCollectionType {
 extension STLDeque {
 
     public var count: Int {
-        return nonmutatingImpl.size
+        return nonmutatingImpl.size()
     }
 
 }
@@ -141,15 +75,15 @@ extension STLDeque : RangeReplaceableCollectionType {
     public mutating func replaceRange(subRange: Range<Int>, with newElements: UnsafeBufferPointer<Element>) {
         if newElements.count > subRange.count {
             // insert the extra elements
-            impl.insert(newElements.baseAddress.advancedBy(subRange.count), count: newElements.count - subRange.count, atIndex: subRange.endIndex)
+            impl.insert(subRange.endIndex, values: newElements.baseAddress, count: newElements.count - subRange.count)
         }
         else if newElements.count < subRange.count {
             // erase extra elements
-            impl.eraseRange((subRange.startIndex+newElements.count)..<subRange.endIndex)
+            impl.erase(subRange.startIndex + newElements.count, count: subRange.count - newElements.count)
         }
         // set the values of the common range
         for (i, e) in zip(subRange, newElements) {
-            impl[i] = e
+            impl.index(i).memory = e
         }
     }
 

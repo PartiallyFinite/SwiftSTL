@@ -51,7 +51,7 @@ struct %base {
     virtual %base * clone() const UNIMPLEMENTED;
 
 //%     for f in types[type]:
-    virtual %{f.type} %{f.name}(%{f.args}) %{f.const} UNIMPLEMENTED;
+    virtual %{ctype(f)} %{f.name}(%{argsdecl(f.args)}) %{f.const} UNIMPLEMENTED;
 //%     pass
 
 };
@@ -78,7 +78,7 @@ struct %cont : public %base {
     }
 
 //%     for f in types[type]:
-    %{f.type} %{f.name}(%{f.args}) %{f.const} override {
+    %{ctype(f)} %{f.name}(%{argsdecl(f.args)}) %{f.const} override {
         %{f.body}
     }
 //%     pass
@@ -101,7 +101,7 @@ void %{Prefix}Destroy(%Ref ref) {
 }
 
 //%     for f in types[type]:
-%{f.type} %{Prefix + camel(f.name)}(%{f.const} %Ref ref %{', ' + f.args if len(f.args) else ''}) {
+%{ctype(f)} %{Prefix + camel(f.name)}(%{f.const} %Ref ref %{', ' + argsdecl(f.args) if len(f.args) else ''}) {
     return ref->%{f.name}(%{argscall(f.args)});
 }
 //%     pass

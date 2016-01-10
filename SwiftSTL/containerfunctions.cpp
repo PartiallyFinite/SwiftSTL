@@ -39,51 +39,101 @@
 
 #define SKIP
 
+SKIP typedef sizetype<1> element;
+
+// Define the allowed argument and return types. These types must also be present in vartypes in containers.py.
+// Only capital letters and underscores are allowed.
+#define VOID void
+#define ELEMS void *
+#define CONST_ELEMS const void *
+#define ELEM void *
+#define CONST_ELEM const void *
+#define INDEX size_t
+
 #include <deque>
 
 struct deque {
 
-    SKIP typedef sizetype<1> element;
     SKIP std::deque<element> v;
 
-    const void * get_index(size_t index) const {
+    CONST_ELEM get_index(INDEX index) const {
         return this->v[index]._;
     }
 
-    void * index(size_t index) {
+    ELEM index(INDEX index) {
         return this->v[index]._;
     }
 
-    size_t size() const {
+    INDEX size() const {
         return this->v.size();
     }
 
-    void clear() {
+    VOID clear() {
         this->v.clear();
     }
 
-    void insert(size_t index, const void *values, size_t count) {
+    VOID insert(INDEX index, CONST_ELEMS values, INDEX count) {
         this->v.insert(this->v.begin() + index, (const element *)values, (const element *)values + count);
     }
 
-    void erase(size_t index, size_t count) {
+    VOID erase(INDEX index, INDEX count) {
         this->v.erase(this->v.begin() + index, this->v.begin() + index + count);
     }
 
-    void push_back(const void *value) {
+    VOID push_back(CONST_ELEM value) {
         this->v.push_back(*(const element *)value);
     }
 
-    void pop_back() {
+    VOID pop_back() {
         this->v.pop_back();
     }
 
-    void push_front(const void *value) {
+    VOID push_front(CONST_ELEM value) {
         this->v.push_front(*(const element *)value);
     }
 
-    void pop_front() {
+    VOID pop_front() {
         this->v.pop_front();
+    }
+
+};
+
+#include <vector>
+
+struct vector {
+
+    SKIP std::vector<element> v;
+
+    CONST_ELEM get_index(INDEX index) const {
+        return this->v[index]._;
+    }
+
+    ELEM index(INDEX index) {
+        return this->v[index]._;
+    }
+
+    INDEX size() const {
+        return this->v.size();
+    }
+
+    VOID clear() {
+        this->v.clear();
+    }
+
+    VOID insert(INDEX index, CONST_ELEMS values, INDEX count) {
+        this->v.insert(this->v.begin() + index, (const element *)values, (const element *)values + count);
+    }
+
+    VOID erase(INDEX index, INDEX count) {
+        this->v.erase(this->v.begin() + index, this->v.begin() + index + count);
+    }
+
+    VOID push_back(CONST_ELEM value) {
+        this->v.push_back(*(const element *)value);
+    }
+
+    VOID pop_back() {
+        this->v.pop_back();
     }
 
 };

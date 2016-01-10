@@ -19,6 +19,8 @@
 		37D322031C41395B00E2245F /* Deque.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D321CE1C3FD42400E2245F /* Deque.swift */; };
 		37D322041C413A4400E2245F /* containers.h.gen in Sources */ = {isa = PBXBuildFile; fileRef = 37D321F91C41316E00E2245F /* containers.h.gen */; };
 		37D322051C413A5400E2245F /* containers.h.gen in Sources */ = {isa = PBXBuildFile; fileRef = 37D321F91C41316E00E2245F /* containers.h.gen */; };
+		37D3220B1C41F30600E2245F /* ContainersImpl.swift.gen in Sources */ = {isa = PBXBuildFile; fileRef = 37D3220A1C41F30600E2245F /* ContainersImpl.swift.gen */; };
+		37D3220C1C41F30600E2245F /* ContainersImpl.swift.gen in Sources */ = {isa = PBXBuildFile; fileRef = 37D3220A1C41F30600E2245F /* ContainersImpl.swift.gen */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -80,6 +82,7 @@
 		37D321F91C41316E00E2245F /* containers.h.gen */ = {isa = PBXFileReference; lastKnownFileType = text; path = containers.h.gen; sourceTree = "<group>"; };
 		37D322081C413F9600E2245F /* containerfunctions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = containerfunctions.cpp; sourceTree = "<group>"; };
 		37D322091C4140CC00E2245F /* sizetype.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sizetype.hpp; sourceTree = "<group>"; };
+		37D3220A1C41F30600E2245F /* ContainersImpl.swift.gen */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ContainersImpl.swift.gen; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +149,7 @@
 				37D322091C4140CC00E2245F /* sizetype.hpp */,
 				37D322081C413F9600E2245F /* containerfunctions.cpp */,
 				37D321F81C41301200E2245F /* containers.py */,
+				37D3220A1C41F30600E2245F /* ContainersImpl.swift.gen */,
 				37D321F91C41316E00E2245F /* containers.h.gen */,
 				37D321F41C4110F100E2245F /* containers.cpp.gen */,
 			);
@@ -373,6 +377,7 @@
 			files = (
 				37D322041C413A4400E2245F /* containers.h.gen in Sources */,
 				37D321F51C4110F100E2245F /* containers.cpp.gen in Sources */,
+				37D3220B1C41F30600E2245F /* ContainersImpl.swift.gen in Sources */,
 				37D322031C41395B00E2245F /* Deque.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,6 +396,7 @@
 			files = (
 				37D322051C413A5400E2245F /* containers.h.gen in Sources */,
 				37D321F61C4110F100E2245F /* containers.cpp.gen in Sources */,
+				37D3220C1C41F30600E2245F /* ContainersImpl.swift.gen in Sources */,
 				37D321D01C3FD42400E2245F /* Deque.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

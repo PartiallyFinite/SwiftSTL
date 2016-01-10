@@ -53,7 +53,7 @@ typedef struct _%{type}_base * %Ref;
 void %{Prefix}Destroy(%Ref ref);
 
 //%     for f in types[type]:
-%{f.type} %{Prefix + camel(f.name)}(%{f.const} %Ref ref %{', ' + f.args if len(f.args) else ''});
+%{ctype(f)} %{Prefix + camel(f.name)}(%{f.const} %Ref ref %{', ' + argsdecl(f.args) if len(f.args) else ''});
 //%     pass
 
 //% pass
