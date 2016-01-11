@@ -61,6 +61,8 @@ vartypes = {
     'ELEM': VarType('void *', 'UnsafeMutablePointer<Element>', 'UnsafeMutablePointer<Element>', 'withCast'),
     'CONST_ELEM': VarType('const void *', 'Element', 'getElem', 'withPtr'),
     'INDEX': VarType('size_t', 'Int', '', ''),
+    'ELEM_COMP': VarType('_comparator', '@convention(c) (UnsafePointer<Void>, UnsafePointer<Void>) -> Bool', '', ''),
+    'ITER': VarType('const void *', 'UnsafePointer<Void>', '', '')
 }
 
 def ctype(f):
@@ -89,8 +91,6 @@ text = open('containerfunctions.cpp').read()
 text = re.sub(r'(?://|#|SKIP).*$', '', text, flags = re.MULTILINE)
 # delete multiline comments
 text = re.sub(r'/\*.*?\*/', '', text, flags = re.MULTILINE | re.DOTALL)
-
-types = {}
 
 # matches a variable declaration with a type
 rsDecl = r'''
@@ -122,14 +122,29 @@ reFunc = re.compile(rsDecl + rsArgs + r'''
         ^\s*\}\s*$  # closing brace, must be alone on line, apart from whitespace.
         ''', re.MULTILINE | re.VERBOSE | re.DOTALL)
 
+reSTL = re.compile(r'''
+        \s*
+        STL
+        \s*
+        (.+?)
+        \s+
+        [A-Za-z_$0-9]+
+        \s*;\s*
+        $
+        ''', re.VERBOSE | re.MULTILINE)
+
 # matches an argument in an argument list
 reArg = re.compile(rsDecl + r'\s*(?:,|$)\s*', re.MULTILINE | re.VERBOSE | re.DOTALL)
 
+Container = namedtuple('Container', 'name stl funcs')
+types = []
+
 for (type, text) in reWrap.findall(text):
+    stl = reSTL.search(text).group(1)
     funcs = []
     for m in reFunc.findall(text):
         (ret, name, args, const, body) = map(str.strip, m)
         args = reArg.findall(args)
         funcs.append(Func(ret, name, args, const, body))
-    types[type] = funcs
+    types.append(Container(type, stl, funcs))
 

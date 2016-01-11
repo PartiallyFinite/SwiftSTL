@@ -37,7 +37,10 @@
 
 #include "sizetype.hpp"
 
+// used to mark ignored lines
 #define SKIP
+// used to mark the STL container declaration in each struct
+#define STL
 
 SKIP typedef sizetype<1> element;
 
@@ -49,12 +52,14 @@ SKIP typedef sizetype<1> element;
 #define ELEM void *
 #define CONST_ELEM const void *
 #define INDEX size_t
+#define ELEM_COMP _comparator
+#define ITER const void *
 
 #include <deque>
 
 struct deque {
 
-    SKIP std::deque<element> v;
+    STL std::deque<element> v;
 
     CONST_ELEM get_index(INDEX index) const {
         return this->v[index]._;
@@ -102,7 +107,7 @@ struct deque {
 
 struct vector {
 
-    SKIP std::vector<element> v;
+    STL std::vector<element> v;
 
     CONST_ELEM get_index(INDEX index) const {
         return this->v[index]._;
@@ -134,6 +139,37 @@ struct vector {
 
     VOID pop_back() {
         this->v.pop_back();
+    }
+
+};
+
+#include <set>
+
+struct set {
+
+    STL std::set<element, szt_func_comp<max>> v;
+
+    VOID set_comparator(ELEM_COMP comp) {
+        *this->v.value_comp().func = comp;
+    }
+
+    ITER begin() const {
+        auto it = this->v.begin();
+        void *v = malloc(sizeof(it));
+        *(typeof(it) *)v = it;
+        return v;
+    }
+
+    INDEX size() const {
+        return this->v.size();
+    }
+
+    VOID insert(CONST_ELEMS values, INDEX count) {
+        this->v.insert((const element *)values, (const element *)values + count);
+    }
+
+    INDEX count(CONST_ELEM e) {
+        return this->v.count(*(const element *)e);
     }
 
 };

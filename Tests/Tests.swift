@@ -40,13 +40,28 @@ class SwiftSTLTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testDeque() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         let a: STLDeque = [1, 2, 3]
         XCTAssertEqual(a[0], 1)
         XCTAssertEqual(a[2], 3)
         XCTAssertEqual(a[1], 2)
+    }
+
+    func testSet() {
+        let s = _STLSetImpl<Int>()
+        s.setComparator { ptra, ptrb in
+            UnsafePointer<Int>(ptra).memory < UnsafePointer<Int>(ptrb).memory
+        }
+        var a = 5, b = -2
+        withUnsafePointers(&a, &b) { a, b in
+            s.insert(a, count: 1)
+            s.insert(b, count: 1)
+        }
+        XCTAssertEqual(s.count(5), 1)
+        XCTAssertEqual(s.count(-2), 1)
+        XCTAssertEqual(s.count(7), 0)
     }
     
 }

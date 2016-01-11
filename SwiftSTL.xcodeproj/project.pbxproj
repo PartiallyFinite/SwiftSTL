@@ -21,6 +21,8 @@
 		37D322051C413A5400E2245F /* containers.h.gen in Sources */ = {isa = PBXBuildFile; fileRef = 37D321F91C41316E00E2245F /* containers.h.gen */; };
 		37D3220B1C41F30600E2245F /* ContainersImpl.swift.gen in Sources */ = {isa = PBXBuildFile; fileRef = 37D3220A1C41F30600E2245F /* ContainersImpl.swift.gen */; };
 		37D3220C1C41F30600E2245F /* ContainersImpl.swift.gen in Sources */ = {isa = PBXBuildFile; fileRef = 37D3220A1C41F30600E2245F /* ContainersImpl.swift.gen */; };
+		37D3220E1C427C0800E2245F /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D3220D1C427C0800E2245F /* Set.swift */; };
+		37D3220F1C427C0800E2245F /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D3220D1C427C0800E2245F /* Set.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -83,6 +85,7 @@
 		37D322081C413F9600E2245F /* containerfunctions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = containerfunctions.cpp; sourceTree = "<group>"; };
 		37D322091C4140CC00E2245F /* sizetype.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sizetype.hpp; sourceTree = "<group>"; };
 		37D3220A1C41F30600E2245F /* ContainersImpl.swift.gen */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ContainersImpl.swift.gen; sourceTree = "<group>"; };
+		37D3220D1C427C0800E2245F /* Set.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +149,7 @@
 				377C0C251C39055800B1840F /* Info-Mac.plist */,
 				377C0C581C3906F400B1840F /* Info-iOS.plist */,
 				37D321CE1C3FD42400E2245F /* Deque.swift */,
+				37D3220D1C427C0800E2245F /* Set.swift */,
 				37D322091C4140CC00E2245F /* sizetype.hpp */,
 				37D322081C413F9600E2245F /* containerfunctions.cpp */,
 				37D321F81C41301200E2245F /* containers.py */,
@@ -375,6 +379,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37D3220E1C427C0800E2245F /* Set.swift in Sources */,
 				37D322041C413A4400E2245F /* containers.h.gen in Sources */,
 				37D321F51C4110F100E2245F /* containers.cpp.gen in Sources */,
 				37D3220B1C41F30600E2245F /* ContainersImpl.swift.gen in Sources */,
@@ -394,6 +399,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37D3220F1C427C0800E2245F /* Set.swift in Sources */,
 				37D322051C413A5400E2245F /* containers.h.gen in Sources */,
 				37D321F61C4110F100E2245F /* containers.cpp.gen in Sources */,
 				37D3220C1C41F30600E2245F /* ContainersImpl.swift.gen in Sources */,

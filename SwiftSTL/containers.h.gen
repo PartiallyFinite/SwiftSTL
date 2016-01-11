@@ -25,19 +25,22 @@
 //  SOFTWARE.
 //
 
-#ifndef deque_h_gen
-#define deque_h_gen
+#ifndef containers_h_gen
+#define containers_h_gen
 
 #include <unistd.h>
 
 __BEGIN_DECLS
+
+typedef bool (*_comparator)(const void *, const void *);
 
 /*%
 
 with open('containers.py') as f:
     exec(f.read())
 
-for type in types:
+for cont in types:
+    type = cont.name
     Type = camel(type)
     Prefix = '_STL' + Type
     Ref = Prefix + 'Ref'
@@ -52,7 +55,7 @@ typedef struct _%{type}_base * %Ref;
 
 void %{Prefix}Destroy(%Ref ref);
 
-//%     for f in types[type]:
+//%     for f in cont.funcs:
 %{ctype(f)} %{Prefix + camel(f.name)}(%{f.const} %Ref ref %{', ' + argsdecl(f.args) if len(f.args) else ''});
 //%     pass
 
@@ -60,4 +63,5 @@ void %{Prefix}Destroy(%Ref ref);
 
 __END_DECLS
 
-#endif /* deque_h_gen */
+#endif /* containers_h_gen */
+

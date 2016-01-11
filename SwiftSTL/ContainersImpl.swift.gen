@@ -56,7 +56,8 @@ private func withPtr<Element, R>(elem: Element, @noescape _ f: UnsafePointer<Voi
 with open('containers.py') as f:
     exec(f.read())
 
-for type in types:
+for cont in types:
+    type = cont.name
     Type = camel(type)
     Prefix = '_STL' + Type
     Impl = Prefix + 'Impl'
@@ -78,7 +79,7 @@ public final class %Impl<Element> : NonObjectiveCBase {
     }
 
 /*%
-    for f in types[type]:
+    for f in cont.funcs:
         ret = swifttype(f)
         pre, post = swiftcallwrap(f)
 %*/

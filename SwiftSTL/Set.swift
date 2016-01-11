@@ -1,5 +1,5 @@
 //
-//  sizetype.hpp
+//  Set.swift
 //  SwiftSTL
 //
 //  The MIT License (MIT)
@@ -25,31 +25,27 @@
 //  SOFTWARE.
 //
 
-#ifndef sizetype_hpp
-#define sizetype_hpp
+public struct STLSet<Element : Comparable> {
 
-#include <cstdint>
-#include "containers.h"
-
-typedef uint16_t szv_t;
-
-static const szv_t _max_size = 2048;
-
-template <szv_t size>
-struct sizetype {
-    char _[size ?: 1];
-};
-
-template<szv_t size>
-struct szt_func_comp {
-
-    _comparator *func = new _comparator;
-
-    bool operator() (const sizetype<size ?: 1>& lhs, const sizetype<size ?: 1>& rhs) const {
-        return (*func)(lhs._, rhs._);
+    private var nonmutatingImpl = _STLSetImpl<Element>()
+    private var impl: _STLSetImpl<Element> {
+        mutating get {
+            if !isUniquelyReferenced(&nonmutatingImpl) {
+                nonmutatingImpl = _STLSetImpl(nonmutatingImpl)
+            }
+            return nonmutatingImpl
+        }
     }
 
-};
+    public init() {
+    }
 
-#endif /* sizetype_hpp */
+}
 
+extension STLSet {
+
+    public var count: Int {
+        return nonmutatingImpl.size()
+    }
+
+}

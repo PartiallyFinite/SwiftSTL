@@ -38,10 +38,11 @@
 with open('containers.py') as f:
     exec(f.read())
 
-for type in types:
-    cont = '_' + type
-    base = cont + '_base'
-    stl = 'std::' + type
+for cont in types:
+    type = cont.name
+    wrap = '_' + type
+    base = wrap + '_base'
+    stl = cont.stl
 
 %*/
 
@@ -50,34 +51,34 @@ for type in types:
 struct %base {
     virtual %base * clone() const UNIMPLEMENTED;
 
-//%     for f in types[type]:
+//%     for f in cont.funcs:
     virtual %{ctype(f)} %{f.name}(%{argsdecl(f.args)}) %{f.const} UNIMPLEMENTED;
 //%     pass
 
 };
 
 template <szv_t max = _max_size>
-struct %cont : public %base {
+struct %wrap : public %base {
     typedef sizetype<max ?: 1> element;
-    %stl<element> v;
+    %stl v;
 
-    %cont() { }
+    %wrap() { }
 
-    %cont(const %stl<element>& v) {
-        this->v = %stl<element>(v);
+    %wrap(const %stl& v) {
+        this->v = %stl(v);
     }
 
     static %base * make(szv_t size) {
         assert(size <= max);
-        if (size <= max / 2) return %cont<max / 2>::make(size);
-        return new %cont();
+        if (size <= max / 2) return %wrap<max / 2>::make(size);
+        return new %wrap();
     }
 
-    %cont * clone() const override {
-        return new %cont(v);
+    %wrap * clone() const override {
+        return new %wrap(v);
     }
 
-//%     for f in types[type]:
+//%     for f in cont.funcs:
     %{ctype(f)} %{f.name}(%{argsdecl(f.args)}) %{f.const} override {
         %{f.body}
     }
@@ -89,7 +90,7 @@ struct %cont : public %base {
 //%     Ref = Prefix + 'Ref'
 
 %Ref %{Prefix}Create(size_t size) {
-    return (%base *)%cont<>::make(size);
+    return (%base *)%wrap<>::make(size);
 }
 
 %Ref %{Prefix}CreateCopy(const %Ref ref) {
@@ -100,7 +101,7 @@ void %{Prefix}Destroy(%Ref ref) {
     delete ref;
 }
 
-//%     for f in types[type]:
+//%     for f in cont.funcs:
 %{ctype(f)} %{Prefix + camel(f.name)}(%{f.const} %Ref ref %{', ' + argsdecl(f.args) if len(f.args) else ''}) {
     return ref->%{f.name}(%{argscall(f.args)});
 }
